@@ -203,11 +203,10 @@ def merge_values_and_structure(values, structure):
 
         if field["type"] == "Group":
             field["value"] = {}
-            structure = merge_values_and_structure(values[field_id], field["element"])
+            field["element"] = merge_values_and_structure(values[field_id], field["element"])
         elif field["type"] == "List":
             field["value"] = []
-            for element in values[field_id]:
-                structure = merge_values_and_structure(element, field["element"])
+            field["element"] = [merge_values_and_structure(element, field["element"]) for element in values[field_id]]
         else:
             field["value"] = values[field_id] if field_id in values else {}
 
